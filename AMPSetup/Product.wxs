@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define ProductName="AMP" ?>
+  <?define ProductVersion="1.0.0.0" ?>
+  <?define ProductCode="911A3376-9FEE-43D4-9DD5-376B69632243"?>
+  <?define UpgradeCode="073AAAB2-7DCD-4B31-9FF1-6351B988C62E"?>
+  <?define Manufacturer="The Simply Sound Co."?>
+  
+	<Product Id="*" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="ProductFeature" Title="var.AMPClient.TargetName" Level="1">      
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentGroupRef Id="ApplicationShortcut" />
+      <ComponentGroupRef Id="DesktopShortcut" />
+      <ComponentGroupRef Id="SetPermission" />
+		</Feature>
+    
+    <ComponentGroup Id="SetPermission" Directory="INSTALLFOLDER">
+      <Component Id="tmpFolder" Guid="881F1B96-AF0E-419D-AFC1-86E659A153D6">
+        <CreateFolder>
+          <Permission User="Users" GenericAll="yes" />
+        </CreateFolder>
+      </Component>
+    </ComponentGroup>
+	
+  </Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="$(var.ProductName)" />
+			</Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)" />
+      </Directory>
+      <Directory Id="Desktop">
+        <Directory Id="DesktopFolder" Name="$(var.ProductName)" />
+      </Directory>
+		</Directory>
+	</Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent" Guid="FD35089D-08D5-434A-9927-0389FBEFA499">
+        <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" Name="ProductComponents" Value="1" Type="integer" KeyPath="yes" />
+        <RemoveFolder Id='ProgramMenuFolder' Directory='INSTALLFOLDER' On='uninstall' />
+        <File Id="FILEE6A5FD63C9F3407FADDEADD1DC2811F8" Source="$(var.AMPClient.TargetPath)"></File>        
+        <File Id="FILEBE8A4E7404184FF4B8DE18A897281CF6" Source="$(var.AMPClasses.TargetPath)"></File>
+        <File Id="FILEEC297B17616E4169AD7AFFD98B38F20B" Source="$(var.SolutionDir)\Files\WIN7.profile"></File>
+        <File Id="FILE776F634553694331B769B620FC057233" Source="$(var.SolutionDir)\Files\WIN10.profile"></File>
+        <RemoveFile Id="DATFiles" Name="*.config" On="uninstall"/>
+        <RemoveFile Id="LOGFiles" Name="*.log" On="uninstall"/>
+        <RemoveFile Id="CSVFiles" Name="*.csv" On="uninstall"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ApplicationShortcut" Directory="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="6E3F9227B8D44D758AD5668D1A0C911D">
+        <Shortcut
+            Id="ApplicationStartMenuShortcut"
+            Name="$(var.ProductName)"
+            Description="$(var.ProductName)"
+            Target="[INSTALLFOLDER]$(var.AMPClient.TargetFileName)"
+            WorkingDirectory="APPLICATIONROOTDIRECTORY"/>        
+        <RemoveFolder Id="ApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall"/>
+        <RegistryValue
+            Root="HKCU"
+            Key="Software\$(var.Manufacturer)\$(var.ProductName)"
+            Name="installed" Type="integer" Value="1"
+            KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="DesktopShortcut" Directory="DesktopFolder">
+      <Component Id="DesktopShortcut" Guid="5BE54B59FCF54CB6B00F57DAAEC08FCF">
+        <Shortcut Id="DesktopShortcut"
+                  Name="$(var.ProductName)"
+                  Description="$(var.ProductName)"
+                  Target="[INSTALLFOLDER]$(var.AMPClient.TargetFileName)"
+                  WorkingDirectory="INSTALLFOLDER" />
+        <RemoveFile Id="Desktop" Name="DesktopShortcut" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.Manufacturer)\$(var.ProductName)" Name="DesktopSC" Value="1" Type="integer" KeyPath="yes" />        
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+  
+</Wix>

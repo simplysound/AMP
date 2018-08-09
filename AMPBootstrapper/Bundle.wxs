@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <?define ProductName="AMP" ?>
+  <?define ProductVersion="1.0.0.0" ?>
+  <?define ProductCode="0D0749C0-9DBB-4987-8F19-B462075C46D9"?>
+  <?define UpgradeCode="75FFB007-463B-4DB2-9F3D-0E6158C572C3"?>
+  <?define Manufacturer="The Simply Sound Co."?>
+  
+  <Bundle Name="$(var.ProductName)" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+		<BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.RtfLicense">
+      <bal:WixStandardBootstrapperApplication LicenseFile="license.rtf" LogoFile="AMPLogo.png" />      
+    </BootstrapperApplicationRef>
+
+    <Chain DisableSystemRestore="yes">
+      <PackageGroupRef Id="NetFx452FullRedist"/>
+      <MsiPackage SourceFile="$(var.AMPSetup.TargetPath)" />
+    </Chain>
+    
+	</Bundle>
+
+  <Fragment>
+    <!-- Value of the 'Release' registry value when .NET 4.5.2 is installed -->
+    <?define NetFx452MinRelease = 379893 ?>
+
+    <!-- Get the release of the .NET V4 framework currently installed -->
+    <util:RegistrySearch
+      Id="NETFRAMEWORK4"
+      Variable="NETFRAMEWORK4"
+      Root="HKLM"
+      Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full"
+      Value="Release"
+      Result="value" />
+
+    <!-- Install .NET 4.5.2 if not already installed -->
+    <PackageGroup Id="NetFx452FullRedist">
+      <ExePackage
+          Id="NetFx452FullRedist"
+          Cache="no"
+          Compressed="yes"
+          InstallCommand="/q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+          RepairCommand="/q /norestart /repair /ChainingPackage &quot;[WixBundleName]&quot;"
+          UninstallCommand="/uninstall /q /norestart /ChainingPackage &quot;[WixBundleName]&quot;"
+          PerMachine="yes"
+          DetectCondition="NETFRAMEWORK4 &gt;= $(var.NetFx452MinRelease)"
+          Vital="yes"
+          Permanent="yes"
+          Protocol="netfx4"
+          SourceFile="$(var.SolutionDir)\Files\NDP452-KB2901907-x86-x64-AllOS-ENU.exe"
+          Name="Redist\NDP452-KB2901907-x86-x64-AllOS-ENU.exe">
+      </ExePackage>
+    </PackageGroup>
+  </Fragment>
+  
+</Wix>
