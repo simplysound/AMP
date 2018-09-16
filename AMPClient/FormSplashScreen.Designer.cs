@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSplashScreen));
             this.labelCopyright = new System.Windows.Forms.Label();
             this.labelAppDescription = new System.Windows.Forms.Label();
             this.checkBoxDontShowMeAgain = new System.Windows.Forms.CheckBox();
@@ -43,19 +44,19 @@
             // 
             this.labelCopyright.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
             this.labelCopyright.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.labelCopyright.Location = new System.Drawing.Point(7, 305);
+            this.labelCopyright.Location = new System.Drawing.Point(13, 230);
             this.labelCopyright.Name = "labelCopyright";
-            this.labelCopyright.Size = new System.Drawing.Size(250, 33);
+            this.labelCopyright.Size = new System.Drawing.Size(154, 33);
             this.labelCopyright.TabIndex = 3;
             this.labelCopyright.Text = "2017-2018 All Rights Reserved\r\nThe Simply Sound Company";
             this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelAppDescription
             // 
-            this.labelAppDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelAppDescription.Location = new System.Drawing.Point(10, 213);
+            this.labelAppDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelAppDescription.Location = new System.Drawing.Point(13, 141);
             this.labelAppDescription.Name = "labelAppDescription";
-            this.labelAppDescription.Size = new System.Drawing.Size(250, 69);
+            this.labelAppDescription.Size = new System.Drawing.Size(154, 55);
             this.labelAppDescription.TabIndex = 2;
             this.labelAppDescription.Text = "AMP";
             this.labelAppDescription.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -64,7 +65,7 @@
             // 
             this.checkBoxDontShowMeAgain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.checkBoxDontShowMeAgain.AutoSize = true;
-            this.checkBoxDontShowMeAgain.Location = new System.Drawing.Point(10, 377);
+            this.checkBoxDontShowMeAgain.Location = new System.Drawing.Point(13, 306);
             this.checkBoxDontShowMeAgain.Name = "checkBoxDontShowMeAgain";
             this.checkBoxDontShowMeAgain.Size = new System.Drawing.Size(132, 17);
             this.checkBoxDontShowMeAgain.TabIndex = 0;
@@ -75,7 +76,7 @@
             // 
             this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonClose.Location = new System.Drawing.Point(182, 374);
+            this.buttonClose.Location = new System.Drawing.Point(92, 329);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(75, 23);
             this.buttonClose.TabIndex = 1;
@@ -86,19 +87,18 @@
             // labelAppVersion
             // 
             this.labelAppVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelAppVersion.Location = new System.Drawing.Point(7, 282);
+            this.labelAppVersion.Location = new System.Drawing.Point(9, 196);
             this.labelAppVersion.Name = "labelAppVersion";
-            this.labelAppVersion.Size = new System.Drawing.Size(250, 23);
+            this.labelAppVersion.Size = new System.Drawing.Size(163, 23);
             this.labelAppVersion.TabIndex = 10;
             this.labelAppVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pbAMPLogo
             // 
-            this.pbAMPLogo.Image = global::AMPClient.Properties.Resources.MainLogo;
-            this.pbAMPLogo.Location = new System.Drawing.Point(60, 60);
+            this.pbAMPLogo.Image = ((System.Drawing.Image)(resources.GetObject("pbAMPLogo.Image")));
+            this.pbAMPLogo.Location = new System.Drawing.Point(40, 38);
             this.pbAMPLogo.Name = "pbAMPLogo";
-            this.pbAMPLogo.Size = new System.Drawing.Size(150, 150);
-            this.pbAMPLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbAMPLogo.Size = new System.Drawing.Size(100, 100);
             this.pbAMPLogo.TabIndex = 7;
             this.pbAMPLogo.TabStop = false;
             this.pbAMPLogo.Click += new System.EventHandler(this.pbAMPLogo_Click);
@@ -107,7 +107,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(270, 410);
+            this.ClientSize = new System.Drawing.Size(180, 365);
             this.Controls.Add(this.labelAppVersion);
             this.Controls.Add(this.labelCopyright);
             this.Controls.Add(this.labelAppDescription);

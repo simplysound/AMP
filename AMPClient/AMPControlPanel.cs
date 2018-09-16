@@ -89,23 +89,23 @@ namespace AMPClient
             pbMainForm.Controls.Add(pbAMPLogo);
             pbMainForm.Controls.Add(pbSwitcher);
 
-            pbMinimize.Location = new Point(230, 10);
+            pbMinimize.Location = new Point(153, 7);
             pbMinimize.BackColor = Color.Transparent;
             pbMinimize.Image = Properties.Resources.MinimizeOFF;
 
-            pbClose.Location = new Point(260, 10);
+            pbClose.Location = new Point(173, 7);
             pbClose.BackColor = Color.Transparent;
             pbClose.Image = Properties.Resources.CloseOFF;
 
-            pbLight.Location = new Point(13, 50);
+            pbLight.Location = new Point(9, 33);
             pbLight.BackColor = Color.Transparent;
             pbLight.Image = Properties.Resources.LightYellow;
 
-            pbAMPLogo.Location = new Point(83, 454);
+            pbAMPLogo.Location = new Point(55, 303);
             pbAMPLogo.BackColor = Color.Transparent;
             pbAMPLogo.Image = Properties.Resources.AMPLogo;
 
-            pbSwitcher.Location = new Point(25, 330);
+            pbSwitcher.Location = new Point(17, 220);
             pbSwitcher.BackColor = Color.Transparent;
             pbSwitcher.Image = Properties.Resources.SwitcherOFF;
 

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using System.ServiceProcess;
+using System.Management;
 
 using AMPClasses;
 
@@ -261,9 +262,54 @@ namespace AMPClient
             frmSplashScreen.ShowDontShowMeAgain = false;
             frmSplashScreen.ShowDialog();
         }
-
+        ///////////////////////////////////////////////////////////////////////
+        // SET SWITCHER STATE
+        delegate void DelegateSetSwitcherState(EnumSwitcherState switcherState);
+        private void SetSwitcherState(EnumSwitcherState switcherState)
+        {
+            if (ampControlPanel.InvokeRequired)
+            {
+                DelegateSetSwitcherState delegateSSS = new DelegateSetSwitcherState(SetSwitcherState);
+                this.Invoke(delegateSSS, new object[] { switcherState });
+            }
+            else
+            {
+                ampControlPanel.SwitcherState = switcherState;
+            }
+        }
+        ///////////////////////////////////////////////////////////////////////
+        // SET LIGHT STATE
+        delegate void DelegateSetLightState(EnumLightState lightState);
+        private void SetLightState(EnumLightState lightState)
+        {
+            if (ampControlPanel.InvokeRequired)
+            {
+                DelegateSetLightState delegateSLS = new DelegateSetLightState(SetLightState);
+                this.Invoke(delegateSLS, new object[] { lightState });
+            }
+            else
+            {
+                ampControlPanel.LightState = lightState;
+            }
+        }
+        ///////////////////////////////////////////////////////////////////////
+        // SET NOTIFY ICON
+        delegate void DelegateSetNotifyIcon(Icon icon);
+        private void SetNotifyIcon(Icon icon)
+        {
+            if (ampControlPanel.InvokeRequired)
+            {
+                DelegateSetNotifyIcon delegateSNI = new DelegateSetNotifyIcon(SetNotifyIcon);
+                this.Invoke(delegateSNI, new object[] { icon });
+            }
+            else
+            {
+                notifyIcon.Icon = icon;
+            }
+        }
+        ///////////////////////////////////////////////////////////////////////
+        // UPDATE SYSTRAY MENU
         delegate void DelegateUpdateSysTrayMenu(EnumSwitcherState ONOFF);
-
         private void UpdateSysTrayMenu(EnumSwitcherState ONOFF)
         {
             if (this.sysTrayMenu.InvokeRequired)
@@ -291,15 +337,11 @@ namespace AMPClient
         {
             switch (ampControlPanel.SwitcherState)
             {
-
                 case EnumSwitcherState.ON:
-                    await Task.Run(() =>
-                    {
-                        ampControlPanel.SwitcherState = EnumSwitcherState.OFF;
-                        ampControlPanel.LightState = EnumLightState.YELLOW_BLINK;
-                        notifyIcon.Icon = Properties.Resources.bullet_yellow_icon;                        
-                    });
 
+                    SetSwitcherState(EnumSwitcherState.OFF);
+                    SetLightState(EnumLightState.YELLOW_BLINK);
+                    SetNotifyIcon(Properties.Resources.bullet_yellow_icon);
                     ampControlPanel.IsBusy = true;
 
                     await Task.Run(() =>
@@ -307,24 +349,18 @@ namespace AMPClient
                         STARTServices();
                     });
 
+                    SetLightState(EnumLightState.RED);
+                    SetNotifyIcon(Properties.Resources.bullet_red_icon);
+                    UpdateSysTrayMenu(EnumSwitcherState.ON);
                     ampControlPanel.IsBusy = false;
 
-                    await Task.Run(() =>
-                    {
-                        ampControlPanel.LightState = EnumLightState.RED;
-                        notifyIcon.Icon = Properties.Resources.bullet_red_icon;
-                        UpdateSysTrayMenu(EnumSwitcherState.ON);
-                    });
                     break;
 
                 case EnumSwitcherState.OFF:
-                    await Task.Run(() =>
-                    {
-                        ampControlPanel.SwitcherState = EnumSwitcherState.ON;
-                        ampControlPanel.LightState = EnumLightState.YELLOW_BLINK;
-                        notifyIcon.Icon = Properties.Resources.bullet_yellow_icon;
-                    });
 
+                    SetSwitcherState(EnumSwitcherState.ON);
+                    SetLightState(EnumLightState.YELLOW_BLINK);
+                    SetNotifyIcon(Properties.Resources.bullet_yellow_icon);
                     ampControlPanel.IsBusy = true;
 
                     await Task.Run(() =>
@@ -332,26 +368,16 @@ namespace AMPClient
                         STOPServices();
                     });
 
+                    SetLightState(EnumLightState.GREEN);
+                    SetNotifyIcon(Properties.Resources.bullet_green_icon);
+                    UpdateSysTrayMenu(EnumSwitcherState.OFF);
                     ampControlPanel.IsBusy = false;
-
-                    await Task.Run(() =>
-                    {
-                        ampControlPanel.LightState = EnumLightState.GREEN;
-                        notifyIcon.Icon = Properties.Resources.bullet_green_icon;
-                        UpdateSysTrayMenu(EnumSwitcherState.OFF);                        
-                    });
                     break;
-
             }
         }
 
         private void STARTServices()
         {
-            ///////////////////////////////////////////////////////////////////
-            // FOR DEBUG ONLY
-            //System.Threading.Thread.Sleep(5000);
-            //return;
-
             List<ServiceStartStopProtocolItem> protocol = new List<ServiceStartStopProtocolItem>();
 
             foreach (ServiceItem item in ProcServiceList)
@@ -378,17 +404,14 @@ namespace AMPClient
                     protocol.Select(x => String.Format("{0},{1},{2},{3},{4}", x.DT, x.Name, x.StatusBefore, x.StatusAfter, x.Result)).ToArray());
             }
             ///////////////////////////////////////////////////////////////////
-            // TODO: In some reason a few services could be disabled 
+            // TODO: In some reason a few services could be disabled
             STARTServicePatch();
+            LocalNetworkConnectionONOFF(true);
+            WirelessConnectionONOFF(true);
         }
 
         private void STOPServices()
         {
-            ///////////////////////////////////////////////////////////////////
-            // FOR DEBUG ONLY
-            //System.Threading.Thread.Sleep(5000);
-            //return;
-
             List<ServiceStartStopProtocolItem> protocol = new List<ServiceStartStopProtocolItem>();
 
             if (serviceCtrl.ServiceStartupLog != null)
@@ -415,11 +438,14 @@ namespace AMPClient
                     fileServiceProtocol,
                     protocol.Select(x => String.Format("{0},{1},{2},{3},{4}", x.DT, x.Name, x.StatusBefore, x.StatusAfter, x.Result)).ToArray());
             }
+            LocalNetworkConnectionONOFF(false);
+            WirelessConnectionONOFF(false);
+            STOPServicePatch();
         }
 
         private void STARTServicePatch()
         {
-            List<string> serviceList = new List<string>() { "Wlansvc", "WwanSvc", "MpsSvc", "WinDefend", "wcncsvc" };
+            List<string> serviceList = new List<string>() { "Wlansvc", "WwanSvc", "MpsSvc", "WinDefend", "wcncsvc", "WinHttpAutoProxySvc" };
 
             foreach (string item in serviceList)
             {
@@ -438,6 +464,48 @@ namespace AMPClient
             }
 
             Utils.RestartExplorer();
+        }
+
+        private void STOPServicePatch()
+        {
+            List<string> serviceList = new List<string>() { "Wlansvc", "WwanSvc", "WinHttpAutoProxySvc" };
+
+            foreach (string item in serviceList)
+            {
+                try
+                {
+                    ServiceController service = new ServiceController(item);
+                    if ((service.Status.Equals(ServiceControllerStatus.Running)) || (service.Status.Equals(ServiceControllerStatus.StartPending)))
+                    {
+                        service.Stop();
+                        TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+                        service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+                        service.Refresh();
+                    }
+                }
+                catch (Exception E) { String msg = E.ToString(); }
+            }
+        }
+
+        private void LocalNetworkConnectionONOFF(bool isEnabled)
+        {
+            SelectQuery wmiQuery = new SelectQuery("SELECT * FROM Win32_NetworkAdapter WHERE NetConnectionId != NULL");
+            ManagementObjectSearcher searchProcedure = new ManagementObjectSearcher(wmiQuery);
+            foreach (ManagementObject item in searchProcedure.Get())
+            {
+                if (item["NetConnectionId"].ToString() == "Local Network Connection")
+                {
+                    if (isEnabled == true)
+                        item.InvokeMethod("Disable", null);
+                    else
+                        item.InvokeMethod("Enable", null);
+                }
+            }
+        }
+        
+        private void WirelessConnectionONOFF(bool isEnabled)
+        {
+            ; // RESERVED
         }
 
         void OnPropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -38,9 +38,13 @@
   <PropertyGroup>
     <ApplicationIcon>AMP.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -87,6 +91,7 @@
     <EmbeddedResource Include="AMPControlPanel.resx">
       <DependentUpon>AMPControlPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -115,24 +120,6 @@
     <EmbeddedResource Include="version.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\CloseOFF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\CloseON.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MainForm.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MainLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MinimizeOFF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\MinimizeON.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\LightsGreen.png" />
   </ItemGroup>
   <ItemGroup>
@@ -145,31 +132,25 @@
     <None Include="Resources\LightsYellowON.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AMPLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SwitcherOFF.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\SwitcherON.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\LightGreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\LightRed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\LightYellow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\LightYellowBlink_500.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\LightYellowBlink_1000.gif" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AMP.ico" />
+    <None Include="Resources\LightYellowBlink_500.gif" />
+    <None Include="Resources\LightYellow.png" />
+    <None Include="Resources\SwitcherON.png" />
+    <None Include="Resources\SwitcherOFF.png" />
+    <None Include="Resources\MinimizeON.png" />
+    <None Include="Resources\MinimizeOFF.png" />
+    <None Include="Resources\MainLogo.png" />
+    <None Include="Resources\MainForm.png" />
+    <None Include="Resources\LightYellowON.png" />
+    <None Include="Resources\LightYellowOFF.png" />
+    <None Include="Resources\LightRed.png" />
+    <None Include="Resources\LightGreen.png" />
+    <None Include="Resources\CloseON.png" />
+    <None Include="Resources\CloseOFF.png" />
+    <None Include="Resources\AMPLogo.png" />
     <None Include="Resources\bullet_yellow.ico" />
     <None Include="Resources\bullet_red.ico" />
     <None Include="Resources\bullet_green.ico" />

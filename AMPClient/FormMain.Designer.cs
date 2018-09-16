@@ -86,10 +86,11 @@
             // ampControlPanel
             // 
             this.ampControlPanel.BackColor = System.Drawing.Color.Transparent;
+            this.ampControlPanel.IsBusy = false;
             this.ampControlPanel.LightState = AMPClasses.EnumLightState.YELLOW;
             this.ampControlPanel.Location = new System.Drawing.Point(0, 0);
             this.ampControlPanel.Name = "ampControlPanel";
-            this.ampControlPanel.Size = new System.Drawing.Size(300, 622);
+            this.ampControlPanel.Size = new System.Drawing.Size(200, 415);
             this.ampControlPanel.SwitcherState = AMPClasses.EnumSwitcherState.OFF;
             this.ampControlPanel.TabIndex = 0;
             // 
@@ -97,7 +98,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 622);
+            this.ClientSize = new System.Drawing.Size(200, 415);
             this.Controls.Add(this.ampControlPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
