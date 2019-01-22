@@ -11,6 +11,7 @@ using System.IO;
 using System.Reflection;
 using System.ServiceProcess;
 using System.Management;
+using System.Runtime.InteropServices;
 
 using AMPClasses;
 
@@ -18,6 +19,14 @@ namespace AMPClient
 {
     public partial class FormMain : Form
     {
+        [DllImportAttribute("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImportAttribute("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
         public ApplicationSettings appSet;
         Boolean isStart = true;
         private string VersionBuildNumber = "0";
@@ -42,6 +51,7 @@ namespace AMPClient
             ampControlPanel.Minimize_Click += new EventHandler(ampControlPanel_Minimize_Click);
             ampControlPanel.Switcher_Click += new EventHandler(ampControlPanel_Switcher_Click);
             ampControlPanel.Logo_Click += new EventHandler(ampControlPanel_Logo_Click);
+            ampControlPanel.Mouse_Down += new MouseEventHandler(ampControlPanel_Mouse_Down);
 
             serviceCtrl = new WinServiceController();
             serviceCtrl.PropertyChanged += OnPropertyChanged;
@@ -511,6 +521,15 @@ namespace AMPClient
         void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             ; // RESERVED
+        }
+
+        private void ampControlPanel_Mouse_Down(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
         }
     }
 }

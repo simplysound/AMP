@@ -17,6 +17,7 @@ namespace AMPClient
         public event EventHandler Minimize_Click;
         public event EventHandler Switcher_Click;
         public event EventHandler Logo_Click;
+        public event MouseEventHandler Mouse_Down;
 
         private EnumSwitcherState _SwitcherState = EnumSwitcherState.OFF;
         private EnumLightState _LightState = EnumLightState.RED;
@@ -150,6 +151,11 @@ namespace AMPClient
         private void pbAMPLogo_Click(object sender, EventArgs e)
         {
             if (this.Logo_Click != null) this.Logo_Click(this, e);
+        }
+
+        private void pbMainForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (this.Mouse_Down != null) this.Mouse_Down(this, e);
         }
     }
 }

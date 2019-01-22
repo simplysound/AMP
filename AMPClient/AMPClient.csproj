@@ -91,7 +91,9 @@
     <EmbeddedResource Include="AMPControlPanel.resx">
       <DependentUpon>AMPControlPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="app.manifest" />
+    <EmbeddedResource Include="app.manifest">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

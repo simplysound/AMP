@@ -114,6 +114,7 @@
             this.pbMainForm.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pbMainForm.TabIndex = 0;
             this.pbMainForm.TabStop = false;
+            this.pbMainForm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbMainForm_MouseDown);
             // 
             // AMPControlPanel
             // 
