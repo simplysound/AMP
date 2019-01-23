@@ -64,9 +64,9 @@ namespace AMPClient
             ///////////////////////////////////////////////////////////////////
             // Check .NET Framework version
             int FWVersion = Utils.GetFrameworkVersion();
-            if (FWVersion < 378389) // Less than .NET Framework 4.0
+            if (FWVersion < 394802) // Less than .NET Framework 4.6.2
             {
-                MessageBox.Show("The application requires .NET Framework version = 4.5.2\nApplication will be stopped. Please update your .NET Framework and try again.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("The application requires .NET Framework version = 4.6.2\nApplication will be stopped. Please update your .NET Framework and try again.", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Application.Exit();
             }
             ///////////////////////////////////////////////////////////////////
@@ -471,7 +471,11 @@ namespace AMPClient
                         service.Refresh();
                     }
                 }
-                catch (Exception E) { String msg = E.ToString(); }
+                catch (Exception E)
+                {
+                    String msg = E.ToString();
+                    continue;
+                }
             }
 
             Utils.RestartExplorer();
@@ -494,7 +498,11 @@ namespace AMPClient
                         service.Refresh();
                     }
                 }
-                catch (Exception E) { String msg = E.ToString(); }
+                catch (Exception E)
+                {
+                    String msg = E.ToString();
+                    continue;
+                }
             }
         }
 
@@ -518,9 +526,19 @@ namespace AMPClient
         {
             if (isEnabled == true)
             {
+                ServiceController service = new ServiceController("Wlansvc");
+                ServiceHelper.ChangeStartModeT(service, ServiceStartMode.Automatic);
+                if ((service.Status.Equals(ServiceControllerStatus.Stopped)) || (service.Status.Equals(ServiceControllerStatus.StopPending)))
+                {
+                    service.Start();
+                    TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+                    service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+                    service.Refresh();
+                }
+
                 try
                 {
-                    string arguments = "netsh interface set interface name=\"Wireless Network Connection\" admin=ENABLED";
+                    string arguments = "interface set interface name=\"Wireless Network Connection\" admin=ENABLED";
                     ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
 
                     procStartInfo.RedirectStandardOutput = true;
@@ -536,7 +554,38 @@ namespace AMPClient
 #endif
                 }
             }
-                
+
+            if (false)
+            {
+                ServiceController service = new ServiceController("Wlansvc");
+                ServiceHelper.ChangeStartModeT(service, ServiceStartMode.Automatic);
+                if ((service.Status.Equals(ServiceControllerStatus.Stopped)) || (service.Status.Equals(ServiceControllerStatus.StopPending)))
+                {
+                    service.Start();
+                    TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+                    service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+                    service.Refresh();
+                }
+
+                try
+                {
+                    string arguments = "interface set interface name=\"Wireless Network Connection\" admin=DISABLED";
+                    ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
+
+                    procStartInfo.RedirectStandardOutput = true;
+                    procStartInfo.UseShellExecute = false;
+                    procStartInfo.CreateNoWindow = true;
+
+                    Process.Start(procStartInfo);
+                }
+                catch (Exception E)
+                {
+#if DEBUG
+                    MessageBox.Show(E.ToString());
+#endif
+                }
+            }
+
         }
 
         void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
