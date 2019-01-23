@@ -7,3 +7,6 @@ AMPClient/obj/
 AMPSetup/bin/
 AMPSetup/obj/
 .vs/AMP/v14/.suo
+AMPUtility/bin/
+AMPUtility/obj/Debug/AMPUtility.csproj.FileListAbsolute.txt
+AMPUtility/obj/

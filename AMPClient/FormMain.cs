@@ -12,6 +12,7 @@ using System.Reflection;
 using System.ServiceProcess;
 using System.Management;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 using AMPClasses;
 
@@ -515,7 +516,27 @@ namespace AMPClient
         
         private void WirelessConnectionONOFF(bool isEnabled)
         {
-            ; // RESERVED
+            if (isEnabled == true)
+            {
+                try
+                {
+                    string arguments = "netsh interface set interface name=\"Wireless Network Connection\" admin=ENABLED";
+                    ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
+
+                    procStartInfo.RedirectStandardOutput = true;
+                    procStartInfo.UseShellExecute = false;
+                    procStartInfo.CreateNoWindow = true;
+
+                    Process.Start(procStartInfo);
+                }
+                catch (Exception E)
+                {
+#if DEBUG
+                    MessageBox.Show(E.ToString());
+#endif
+                }
+            }
+                
         }
 
         void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
