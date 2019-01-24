@@ -33,8 +33,11 @@ namespace AMPClient
         private string VersionBuildNumber = "0";
         private string VersionNumber = String.Empty;
 
+        // Full service list that were found on machine
         private List<ServiceItem> FullServiceList;
+        // The list of services that can not be stopped
         private List<ServiceItem> WWinServiceList;
+        // Service list to be processed ProcServiceList = FullServiceList - WWinServiceList 
         private List<ServiceItem> ProcServiceList;
 
         private WinServiceController serviceCtrl;
@@ -409,7 +412,7 @@ namespace AMPClient
 
             if (isDebugEnabled == true)
             {
-                String fileServiceProtocol = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ServiceProtocol.csv");
+                String fileServiceProtocol = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ServiceProtocol_START.csv");
                 File.WriteAllLines(
                     fileServiceProtocol,
                     protocol.Select(x => String.Format("{0},{1},{2},{3},{4}", x.DT, x.Name, x.StatusBefore, x.StatusAfter, x.Result)).ToArray());
@@ -444,7 +447,7 @@ namespace AMPClient
 
             if (isDebugEnabled == true)
             {
-                String fileServiceProtocol = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ServiceProtocol.csv");
+                String fileServiceProtocol = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "ServiceProtocol_STOP.csv");
                 File.WriteAllLines(
                     fileServiceProtocol,
                     protocol.Select(x => String.Format("{0},{1},{2},{3},{4}", x.DT, x.Name, x.StatusBefore, x.StatusAfter, x.Result)).ToArray());
@@ -524,6 +527,7 @@ namespace AMPClient
         
         private void WirelessConnectionONOFF(bool isEnabled)
         {
+
             if (isEnabled == true)
             {
                 ServiceController service = new ServiceController("Wlansvc");
@@ -535,56 +539,58 @@ namespace AMPClient
                     service.WaitForStatus(ServiceControllerStatus.Running, timeout);
                     service.Refresh();
                 }
-
-                try
-                {
-                    string arguments = "interface set interface name=\"Wireless Network Connection\" admin=ENABLED";
-                    ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
-
-                    procStartInfo.RedirectStandardOutput = true;
-                    procStartInfo.UseShellExecute = false;
-                    procStartInfo.CreateNoWindow = true;
-
-                    Process.Start(procStartInfo);
-                }
-                catch (Exception E)
-                {
-#if DEBUG
-                    MessageBox.Show(E.ToString());
-#endif
-                }
             }
 
-            if (false)
-            {
-                ServiceController service = new ServiceController("Wlansvc");
-                ServiceHelper.ChangeStartModeT(service, ServiceStartMode.Automatic);
-                if ((service.Status.Equals(ServiceControllerStatus.Stopped)) || (service.Status.Equals(ServiceControllerStatus.StopPending)))
-                {
-                    service.Start();
-                    TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
-                    service.WaitForStatus(ServiceControllerStatus.Running, timeout);
-                    service.Refresh();
-                }
+            ///////////////////////////////////////////////////////////////////
+            // This part is not verified
+                        
+            //if (isEnabled == true)
+            //{
+            //    ServiceController service = new ServiceController("Wlansvc");
+            //    ServiceHelper.ChangeStartModeT(service, ServiceStartMode.Automatic);
+            //    if ((service.Status.Equals(ServiceControllerStatus.Stopped)) || (service.Status.Equals(ServiceControllerStatus.StopPending)))
+            //    {
+            //        service.Start();
+            //        TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+            //        service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+            //        service.Refresh();
+            //    }
 
-                try
-                {
-                    string arguments = "interface set interface name=\"Wireless Network Connection\" admin=DISABLED";
-                    ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
+            //    try
+            //    {
+            //        string arguments = "interface set interface name=\"Wireless Network Connection\" admin=ENABLED";
+            //        ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
 
-                    procStartInfo.RedirectStandardOutput = true;
-                    procStartInfo.UseShellExecute = false;
-                    procStartInfo.CreateNoWindow = true;
+            //        procStartInfo.RedirectStandardOutput = true;
+            //        procStartInfo.UseShellExecute = false;
+            //        procStartInfo.CreateNoWindow = true;
 
-                    Process.Start(procStartInfo);
-                }
-                catch (Exception E)
-                {
-#if DEBUG
-                    MessageBox.Show(E.ToString());
-#endif
-                }
-            }
+            //        Process.Start(procStartInfo);
+            //    }
+            //    catch (Exception E)
+            //    {
+            //        MessageBox.Show(E.ToString());
+            //    }
+            //}
+
+            //if (isEnabled == false)
+            //{
+            //    try
+            //    {
+            //        string arguments = "interface set interface name=\"Wireless Network Connection\" admin=DISABLED";
+            //        ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
+
+            //        procStartInfo.RedirectStandardOutput = true;
+            //        procStartInfo.UseShellExecute = false;
+            //        procStartInfo.CreateNoWindow = true;
+
+            //        Process.Start(procStartInfo);
+            //    }
+            //    catch (Exception E)
+            //    {
+            //        MessageBox.Show(E.ToString());
+            //    }
+            //}
 
         }
 
