@@ -22,6 +22,8 @@ namespace AMPClient
         private EnumSwitcherState _SwitcherState = EnumSwitcherState.OFF;
         private EnumLightState _LightState = EnumLightState.RED;
 
+        private bool isBlinkON = false;
+
         public Boolean IsBusy { get; set; }
 
         public EnumSwitcherState SwitcherState
@@ -61,15 +63,19 @@ namespace AMPClient
                 {
                     case EnumLightState.GREEN:
                         pbLight.Image = Properties.Resources.LightGreen;
+                        timerBlink.Enabled = false;
                         break;
                     case EnumLightState.RED:
                         pbLight.Image = Properties.Resources.LightRed;
+                        timerBlink.Enabled = false;
                         break;
                     case EnumLightState.YELLOW:
-                        pbLight.Image = Properties.Resources.LightYellow;
+                        pbLight.Image = Properties.Resources.LightYellowOFF;
+                        timerBlink.Enabled = false;
                         break;
                     case EnumLightState.YELLOW_BLINK:
-                        pbLight.Image = Properties.Resources.LightYellowBlink_500;
+                        pbLight.Image = Properties.Resources.LightYellowOFF;
+                        timerBlink.Enabled = true;
                         break;
                 }
             }
@@ -100,7 +106,7 @@ namespace AMPClient
 
             pbLight.Location = new Point(9, 25);
             pbLight.BackColor = Color.Transparent;
-            pbLight.Image = Properties.Resources.LightYellow;
+            pbLight.Image = Properties.Resources.LightYellowOFF;
 
             pbAMPLogo.Location = new Point(55, 308);
             pbAMPLogo.BackColor = Color.Transparent;
@@ -156,6 +162,16 @@ namespace AMPClient
         private void pbMainForm_MouseDown(object sender, MouseEventArgs e)
         {
             if (this.Mouse_Down != null) this.Mouse_Down(this, e);
+        }
+
+        private void timerBlink_Tick(object sender, EventArgs e)
+        {
+            isBlinkON = !isBlinkON;
+
+            if (isBlinkON)
+                pbLight.Image = Properties.Resources.LightYellowON;
+            else
+                pbLight.Image = Properties.Resources.LightYellowOFF;
         }
     }
 }

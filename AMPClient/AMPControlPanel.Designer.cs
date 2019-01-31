@@ -31,30 +31,20 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AMPControlPanel));
             this.toolTipURL = new System.Windows.Forms.ToolTip(this.components);
-            this.pbSwitcher = new System.Windows.Forms.PictureBox();
             this.pbAMPLogo = new System.Windows.Forms.PictureBox();
-            this.pbLight = new System.Windows.Forms.PictureBox();
-            this.pbMinimize = new System.Windows.Forms.PictureBox();
             this.pbClose = new System.Windows.Forms.PictureBox();
+            this.pbMinimize = new System.Windows.Forms.PictureBox();
+            this.pbSwitcher = new System.Windows.Forms.PictureBox();
+            this.pbLight = new System.Windows.Forms.PictureBox();
             this.pbMainForm = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pbSwitcher)).BeginInit();
+            this.timerBlink = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbAMPLogo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbMinimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMinimize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSwitcher)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMainForm)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pbSwitcher
-            // 
-            this.pbSwitcher.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pbSwitcher.Image = ((System.Drawing.Image)(resources.GetObject("pbSwitcher.Image")));
-            this.pbSwitcher.Location = new System.Drawing.Point(17, 225);
-            this.pbSwitcher.Name = "pbSwitcher";
-            this.pbSwitcher.Size = new System.Drawing.Size(166, 63);
-            this.pbSwitcher.TabIndex = 5;
-            this.pbSwitcher.TabStop = false;
-            this.pbSwitcher.Click += new System.EventHandler(this.pbSwitcher_Click);
             // 
             // pbAMPLogo
             // 
@@ -66,29 +56,6 @@
             this.pbAMPLogo.TabIndex = 4;
             this.pbAMPLogo.TabStop = false;
             this.pbAMPLogo.Click += new System.EventHandler(this.pbAMPLogo_Click);
-            // 
-            // pbLight
-            // 
-            this.pbLight.Image = ((System.Drawing.Image)(resources.GetObject("pbLight.Image")));
-            this.pbLight.Location = new System.Drawing.Point(9, 25);
-            this.pbLight.Name = "pbLight";
-            this.pbLight.Size = new System.Drawing.Size(183, 183);
-            this.pbLight.TabIndex = 3;
-            this.pbLight.TabStop = false;
-            // 
-            // pbMinimize
-            // 
-            this.pbMinimize.BackColor = System.Drawing.Color.Transparent;
-            this.pbMinimize.Image = ((System.Drawing.Image)(resources.GetObject("pbMinimize.Image")));
-            this.pbMinimize.Location = new System.Drawing.Point(153, 7);
-            this.pbMinimize.Name = "pbMinimize";
-            this.pbMinimize.Size = new System.Drawing.Size(20, 20);
-            this.pbMinimize.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pbMinimize.TabIndex = 2;
-            this.pbMinimize.TabStop = false;
-            this.pbMinimize.Click += new System.EventHandler(this.pbMinimize_Click);
-            this.pbMinimize.MouseLeave += new System.EventHandler(this.pbMinimize_MouseLeave);
-            this.pbMinimize.MouseHover += new System.EventHandler(this.pbMinimize_MouseHover);
             // 
             // pbClose
             // 
@@ -104,6 +71,41 @@
             this.pbClose.MouseLeave += new System.EventHandler(this.pbClose_MouseLeave);
             this.pbClose.MouseHover += new System.EventHandler(this.pbClose_MouseHover);
             // 
+            // pbMinimize
+            // 
+            this.pbMinimize.BackColor = System.Drawing.Color.Transparent;
+            this.pbMinimize.Image = ((System.Drawing.Image)(resources.GetObject("pbMinimize.Image")));
+            this.pbMinimize.Location = new System.Drawing.Point(153, 7);
+            this.pbMinimize.Name = "pbMinimize";
+            this.pbMinimize.Size = new System.Drawing.Size(20, 20);
+            this.pbMinimize.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pbMinimize.TabIndex = 2;
+            this.pbMinimize.TabStop = false;
+            this.pbMinimize.Click += new System.EventHandler(this.pbMinimize_Click);
+            this.pbMinimize.MouseLeave += new System.EventHandler(this.pbMinimize_MouseLeave);
+            this.pbMinimize.MouseHover += new System.EventHandler(this.pbMinimize_MouseHover);
+            // 
+            // pbSwitcher
+            // 
+            this.pbSwitcher.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pbSwitcher.Image = ((System.Drawing.Image)(resources.GetObject("pbSwitcher.Image")));
+            this.pbSwitcher.Location = new System.Drawing.Point(17, 225);
+            this.pbSwitcher.Name = "pbSwitcher";
+            this.pbSwitcher.Size = new System.Drawing.Size(166, 63);
+            this.pbSwitcher.TabIndex = 5;
+            this.pbSwitcher.TabStop = false;
+            this.pbSwitcher.Click += new System.EventHandler(this.pbSwitcher_Click);
+            // 
+            // pbLight
+            // 
+            this.pbLight.BackColor = System.Drawing.Color.White;
+            this.pbLight.Image = ((System.Drawing.Image)(resources.GetObject("pbLight.Image")));
+            this.pbLight.Location = new System.Drawing.Point(9, 25);
+            this.pbLight.Name = "pbLight";
+            this.pbLight.Size = new System.Drawing.Size(183, 183);
+            this.pbLight.TabIndex = 3;
+            this.pbLight.TabStop = false;
+            // 
             // pbMainForm
             // 
             this.pbMainForm.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -115,6 +117,11 @@
             this.pbMainForm.TabIndex = 0;
             this.pbMainForm.TabStop = false;
             this.pbMainForm.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pbMainForm_MouseDown);
+            // 
+            // timerBlink
+            // 
+            this.timerBlink.Interval = 500;
+            this.timerBlink.Tick += new System.EventHandler(this.timerBlink_Tick);
             // 
             // AMPControlPanel
             // 
@@ -129,11 +136,11 @@
             this.Controls.Add(this.pbMainForm);
             this.Name = "AMPControlPanel";
             this.Size = new System.Drawing.Size(200, 415);
-            ((System.ComponentModel.ISupportInitialize)(this.pbSwitcher)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbAMPLogo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbLight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbMinimize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbClose)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMinimize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbSwitcher)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbLight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbMainForm)).EndInit();
             this.ResumeLayout(false);
 
@@ -148,5 +155,6 @@
         private System.Windows.Forms.PictureBox pbAMPLogo;
         private System.Windows.Forms.PictureBox pbSwitcher;
         private System.Windows.Forms.ToolTip toolTipURL;
+        private System.Windows.Forms.Timer timerBlink;
     }
 }

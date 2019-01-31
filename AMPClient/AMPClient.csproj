@@ -139,8 +139,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AMP.ico" />
-    <None Include="Resources\LightYellowBlink_500.gif" />
+    <None Include="Resources\YellowBlink.gif" />
     <None Include="Resources\LightYellow.png" />
+    <None Include="Resources\YellowBlink_1000.png" />
+    <None Include="Resources\YellowBlink_500.png" />
+    <None Include="Resources\LightYellowBlink_500.gif" />
     <None Include="Resources\SwitcherON.png" />
     <None Include="Resources\SwitcherOFF.png" />
     <None Include="Resources\MinimizeON.png" />

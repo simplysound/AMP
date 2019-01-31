@@ -173,26 +173,6 @@ namespace AMPClient.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap LightYellow {
-            get {
-                object obj = ResourceManager.GetObject("LightYellow", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap LightYellowBlink_500 {
-            get {
-                object obj = ResourceManager.GetObject("LightYellowBlink_500", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap LightYellowOFF {
             get {
                 object obj = ResourceManager.GetObject("LightYellowOFF", resourceCulture);
