@@ -98,15 +98,15 @@ namespace AMPClient
             pbClose.BackColor = Color.Transparent;
             pbClose.Image = Properties.Resources.CloseOFF;
 
-            pbLight.Location = new Point(9, 33);
+            pbLight.Location = new Point(9, 25);
             pbLight.BackColor = Color.Transparent;
             pbLight.Image = Properties.Resources.LightYellow;
 
-            pbAMPLogo.Location = new Point(55, 303);
+            pbAMPLogo.Location = new Point(55, 308);
             pbAMPLogo.BackColor = Color.Transparent;
             pbAMPLogo.Image = Properties.Resources.AMPLogo;
 
-            pbSwitcher.Location = new Point(17, 220);
+            pbSwitcher.Location = new Point(17, 225);
             pbSwitcher.BackColor = Color.Transparent;
             pbSwitcher.Image = Properties.Resources.SwitcherOFF;
 

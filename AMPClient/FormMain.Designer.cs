@@ -87,12 +87,12 @@
             // 
             this.ampControlPanel.BackColor = System.Drawing.Color.Transparent;
             this.ampControlPanel.IsBusy = false;
-            this.ampControlPanel.LightState = AMPClasses.EnumLightState.YELLOW;
+            this.ampControlPanel.LightState = AMPClasses.EnumLightState.RED;
             this.ampControlPanel.Location = new System.Drawing.Point(0, 0);
             this.ampControlPanel.Name = "ampControlPanel";
             this.ampControlPanel.Size = new System.Drawing.Size(200, 415);
             this.ampControlPanel.SwitcherState = AMPClasses.EnumSwitcherState.OFF;
-            this.ampControlPanel.TabIndex = 0;
+            this.ampControlPanel.TabIndex = 1;
             // 
             // FormMain
             // 
@@ -118,14 +118,13 @@
         }
 
         #endregion
-
-        private AMPControlPanel ampControlPanel;
         private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.ContextMenuStrip sysTrayMenu;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ONOFFToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private AMPControlPanel ampControlPanel;
     }
 }
 

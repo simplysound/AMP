@@ -49,7 +49,7 @@
             // 
             this.pbSwitcher.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbSwitcher.Image = ((System.Drawing.Image)(resources.GetObject("pbSwitcher.Image")));
-            this.pbSwitcher.Location = new System.Drawing.Point(17, 220);
+            this.pbSwitcher.Location = new System.Drawing.Point(17, 225);
             this.pbSwitcher.Name = "pbSwitcher";
             this.pbSwitcher.Size = new System.Drawing.Size(166, 63);
             this.pbSwitcher.TabIndex = 5;
@@ -60,7 +60,7 @@
             // 
             this.pbAMPLogo.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pbAMPLogo.Image = ((System.Drawing.Image)(resources.GetObject("pbAMPLogo.Image")));
-            this.pbAMPLogo.Location = new System.Drawing.Point(55, 303);
+            this.pbAMPLogo.Location = new System.Drawing.Point(55, 308);
             this.pbAMPLogo.Name = "pbAMPLogo";
             this.pbAMPLogo.Size = new System.Drawing.Size(90, 90);
             this.pbAMPLogo.TabIndex = 4;
@@ -70,7 +70,7 @@
             // pbLight
             // 
             this.pbLight.Image = ((System.Drawing.Image)(resources.GetObject("pbLight.Image")));
-            this.pbLight.Location = new System.Drawing.Point(9, 33);
+            this.pbLight.Location = new System.Drawing.Point(9, 25);
             this.pbLight.Name = "pbLight";
             this.pbLight.Size = new System.Drawing.Size(183, 183);
             this.pbLight.TabIndex = 3;
