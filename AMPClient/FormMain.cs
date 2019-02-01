@@ -419,6 +419,10 @@ namespace AMPClient
             }
             ///////////////////////////////////////////////////////////////////
             // TODO: In some reason a few services could be disabled
+
+            String CortanaResult = Utils.ConfigureCortana(0);
+            if (CortanaResult != "SUCCESS")
+                MessageBox.Show(CortanaResult, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             STARTServicePatch();
             LocalNetworkConnectionONOFF(true);
             WirelessConnectionONOFF(true);

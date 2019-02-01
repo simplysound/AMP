@@ -160,5 +160,65 @@ namespace AMPClasses
             }
             catch { }
         }
+
+        public static string ConfigureCortana(UInt32 isEnabled)
+        {
+            UInt32 isCortanaEnabled = isEnabled;
+            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows\Windows Search", true);
+            if (key == null)
+            {
+                RegistryKey subKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows", true);
+                if (subKey != null)
+                {
+                    try
+                    {
+                        subKey.CreateSubKey("Windows Search");
+                        key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Policies\Microsoft\Windows\Windows Search", true);
+                        if (key != null)
+                        {
+                            if (key.GetValue("AllowCortana", null) == null)
+                            {
+                                key.SetValue("AllowCortana", isEnabled, RegistryValueKind.DWord);
+                                key.Close();
+                            }
+                            else
+                            {
+                                UInt32.TryParse(key.GetValue("AllowCortana").ToString(), out isCortanaEnabled);
+                                if (isCortanaEnabled != isEnabled)
+                                {
+                                    key.SetValue("AllowCortana", isEnabled, RegistryValueKind.DWord);
+                                    key.Close();
+                                }
+                            }
+                        }
+                        subKey.Close();
+                    }
+                    catch (Exception E)
+                    {
+                        return E.ToString();
+                    }
+                }
+            }
+            else
+            {
+                if (key != null)
+                {
+                    UInt32.TryParse(key.GetValue("AllowCortana").ToString(), out isCortanaEnabled);
+                    if (isCortanaEnabled != isEnabled)
+                    {
+                        try
+                        {
+                            key.SetValue("AllowCortana", isEnabled);
+                            key.Close();
+                        }
+                        catch (Exception E)
+                        {
+                            return E.ToString();
+                        }
+                    }
+                }
+            }
+            return "SUCCESS";
+        }
     }
 }
