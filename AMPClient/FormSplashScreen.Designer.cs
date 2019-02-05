@@ -48,7 +48,7 @@
             this.labelCopyright.Name = "labelCopyright";
             this.labelCopyright.Size = new System.Drawing.Size(154, 33);
             this.labelCopyright.TabIndex = 3;
-            this.labelCopyright.Text = "2017-2018 All Rights Reserved\r\nThe Simply Sound Company";
+            this.labelCopyright.Text = "2017-2019 All Rights Reserved\r\nThe Simply Sound Company";
             this.labelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // labelAppDescription
