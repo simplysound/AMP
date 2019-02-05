@@ -463,7 +463,7 @@ namespace AMPClient
 
         private void STARTServicePatch()
         {
-            List<string> serviceList = new List<string>() { "Wlansvc", "WwanSvc", "MpsSvc", "WinDefend", "wcncsvc", "WinHttpAutoProxySvc" };
+            List<string> serviceList = new List<string>() { "Wlansvc", "WwanSvc", "MpsSvc", "WinDefend", "wcncsvc", "WinHttpAutoProxySvc", "Focusrite Control Server", "RtkAudioService", "RunSwUSB" };
 
             foreach (string item in serviceList)
             {

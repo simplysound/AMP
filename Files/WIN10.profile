@@ -108,3 +108,6 @@ Intel(R)ManagementAndSecurityApplicationLocalManagementService	Intel(R) Manageme
 NVDisplay.ContainerLocalSystem	NVIDA Display Container LS	0
 NVIDALocalSystemContainer	NVIDA LocalSystem Container	0
 MMCSS	Multimedia Class Scheduler	0
+Focusrite Control Server	Focusrite Control Server	0
+RtkAudioService	Realtek Audio Service	0
+RunSwUSB	RunSwUSB	0
