@@ -426,6 +426,7 @@ namespace AMPClient
             STARTServicePatch();
             LocalNetworkConnectionONOFF(true);
             WirelessConnectionONOFF(true);
+            AlwaysStartedServicesPatch();
         }
 
         private void STOPServices()
@@ -459,11 +460,37 @@ namespace AMPClient
             LocalNetworkConnectionONOFF(false);
             WirelessConnectionONOFF(false);
             STOPServicePatch();
+            AlwaysStartedServicesPatch();
+        }
+
+        private void AlwaysStartedServicesPatch()
+        {
+            List<string> serviceList = new List<string>() { "Focusrite Control Server", "RtkAudioService", "RunSwUSB" };
+
+            foreach (string item in serviceList)
+            {
+                try
+                {
+                    ServiceController service = new ServiceController(item);
+                    if ((service.Status.Equals(ServiceControllerStatus.Stopped)) || (service.Status.Equals(ServiceControllerStatus.StopPending)))
+                    {
+                        service.Start();
+                        TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+                        service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+                        service.Refresh();
+                    }
+                }
+                catch (Exception E)
+                {
+                    String msg = E.ToString();
+                    continue;
+                }
+            }
         }
 
         private void STARTServicePatch()
         {
-            List<string> serviceList = new List<string>() { "Wlansvc", "WwanSvc", "MpsSvc", "WinDefend", "wcncsvc", "WinHttpAutoProxySvc", "Focusrite Control Server", "RtkAudioService", "RunSwUSB" };
+            List<string> serviceList = new List<string>() { "Wlansvc", "WwanSvc", "MpsSvc", "WinDefend", "wcncsvc", "WinHttpAutoProxySvc" };
 
             foreach (string item in serviceList)
             {
@@ -531,7 +558,6 @@ namespace AMPClient
         
         private void WirelessConnectionONOFF(bool isEnabled)
         {
-
             if (isEnabled == true)
             {
                 ServiceController service = new ServiceController("Wlansvc");
@@ -544,57 +570,6 @@ namespace AMPClient
                     service.Refresh();
                 }
             }
-
-            ///////////////////////////////////////////////////////////////////
-            // This part is not verified
-                        
-            //if (isEnabled == true)
-            //{
-            //    ServiceController service = new ServiceController("Wlansvc");
-            //    ServiceHelper.ChangeStartModeT(service, ServiceStartMode.Automatic);
-            //    if ((service.Status.Equals(ServiceControllerStatus.Stopped)) || (service.Status.Equals(ServiceControllerStatus.StopPending)))
-            //    {
-            //        service.Start();
-            //        TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
-            //        service.WaitForStatus(ServiceControllerStatus.Running, timeout);
-            //        service.Refresh();
-            //    }
-
-            //    try
-            //    {
-            //        string arguments = "interface set interface name=\"Wireless Network Connection\" admin=ENABLED";
-            //        ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
-
-            //        procStartInfo.RedirectStandardOutput = true;
-            //        procStartInfo.UseShellExecute = false;
-            //        procStartInfo.CreateNoWindow = true;
-
-            //        Process.Start(procStartInfo);
-            //    }
-            //    catch (Exception E)
-            //    {
-            //        MessageBox.Show(E.ToString());
-            //    }
-            //}
-
-            //if (isEnabled == false)
-            //{
-            //    try
-            //    {
-            //        string arguments = "interface set interface name=\"Wireless Network Connection\" admin=DISABLED";
-            //        ProcessStartInfo procStartInfo = new ProcessStartInfo("netsh", arguments);
-
-            //        procStartInfo.RedirectStandardOutput = true;
-            //        procStartInfo.UseShellExecute = false;
-            //        procStartInfo.CreateNoWindow = true;
-
-            //        Process.Start(procStartInfo);
-            //    }
-            //    catch (Exception E)
-            //    {
-            //        MessageBox.Show(E.ToString());
-            //    }
-            //}
 
         }
 
