@@ -90,10 +90,7 @@ namespace AMPClasses
         {
             var scManagerHandle = OpenSCManager(null, null, SC_MANAGER_ALL_ACCESS);
             if (scManagerHandle == IntPtr.Zero)
-            {
                 return false;
-                // throw new ExternalException("Open Service Manager Error");
-            }
 
             var serviceHandle = OpenService(
                 scManagerHandle,
@@ -101,10 +98,7 @@ namespace AMPClasses
                 SERVICE_QUERY_CONFIG | SERVICE_CHANGE_CONFIG);
 
             if (serviceHandle == IntPtr.Zero)
-            {
                 return false;
-                // throw new ExternalException("Open Service Error");
-            }
 
             var result = ChangeServiceConfig(
                 serviceHandle,
@@ -120,13 +114,7 @@ namespace AMPClasses
                 null);
 
             if (result == false)
-            {
                 return false;
-                //int nError = Marshal.GetLastWin32Error();
-                //var win32Exception = new Win32Exception(nError);
-                //throw new ExternalException("Could not change service start type: "
-                //    + win32Exception.Message);
-            }
 
             CloseServiceHandle(serviceHandle);
             CloseServiceHandle(scManagerHandle);
