@@ -35,34 +35,41 @@ namespace AMPBackup
                                     Console.WriteLine("The service restore started. Please wait...");
                                     foreach (ServiceInformation item in backupInformation.ServiceList)
                                     {
-                                        ServiceController service = new ServiceController(item.Name);
-                                        service.Refresh();
-
-                                        if (!service.StartType.Equals(item.StartType))
-                                            ServiceHelper.ChangeStartModeT(service, item.StartType);
-
-                                        if (service.Status != item.Status)
+                                        try
                                         {
-                                            Console.Clear();
-                                            Console.SetCursorPosition(0, 0);
-                                            Console.WriteLine(String.Format("Service {0} is under processing. Please wait...", item.Name));
+                                            ServiceController service = new ServiceController(item.Name);
+                                            service.Refresh();
 
-                                            if (item.Status.Equals(ServiceControllerStatus.Running))
+                                            if (!service.StartType.Equals(item.StartType))
+                                                ServiceHelper.ChangeStartModeT(service, item.StartType);
+
+                                            if (service.Status != item.Status)
                                             {
-                                                service.Start();
+                                                Console.Clear();
+                                                Console.SetCursorPosition(0, 0);
+                                                Console.WriteLine(String.Format("Service {0} is under processing. Please wait...", item.Name));
 
-                                                TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
-                                                service.WaitForStatus(ServiceControllerStatus.Running, timeout);
-                                                service.Refresh();
-                                            }                                                
-                                            else if (item.Status.Equals(ServiceControllerStatus.Stopped))
-                                            {
-                                                service.Stop();
+                                                if (item.Status.Equals(ServiceControllerStatus.Running))
+                                                {
+                                                    service.Start();
 
-                                                TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
-                                                service.WaitForStatus(ServiceControllerStatus.Running, timeout);
-                                                service.Refresh();                                                
-                                            }   
+                                                    TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+                                                    service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+                                                    service.Refresh();
+                                                }
+                                                else if (item.Status.Equals(ServiceControllerStatus.Stopped))
+                                                {
+                                                    service.Stop();
+
+                                                    TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+                                                    service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+                                                    service.Refresh();
+                                                }
+                                            }
+                                        }
+                                        catch
+                                        {
+                                            continue;
                                         }
                                     }
                                     Console.Clear();
