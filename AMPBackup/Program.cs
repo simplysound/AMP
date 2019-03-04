@@ -19,12 +19,10 @@ namespace AMPBackup
             Console.Clear();
             // Get argument value
             if (args.Length > 0)
-            {
-                int argFlag = -1;
-                int.TryParse(args[0], out argFlag);
-                switch (argFlag)
+            {                
+                switch (args[0])
                 {
-                    case 0: // Restore services backup
+                    case "-r": // Restore services backup
                         try
                         {
                             if (backupInformation != null)
@@ -79,7 +77,7 @@ namespace AMPBackup
                             String exception = E.ToString();
                             return -1;
                         }
-                    case 1: // Create services backup
+                    case "-b": // Create services backup
                         try
                         {
                             if (backupInformation != null)

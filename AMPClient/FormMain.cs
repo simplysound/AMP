@@ -465,7 +465,7 @@ namespace AMPClient
 
         private void AlwaysStartedServicesPatch()
         {
-            List<string> serviceList = new List<string>() { "Focusrite Control Server", "RtkAudioService", "RunSwUSB" };
+            List<string> serviceList = new List<string>() { "Focusrite Control Server", "RtkAudioService", "RunSwUSB", "AudioSrv" };
 
             foreach (string item in serviceList)
             {

@@ -5,20 +5,20 @@
   <?define ProductCode="911A3376-9FEE-43D4-9DD5-376B69632243"?>
   <?define UpgradeCode="073AAAB2-7DCD-4B31-9FF1-6351B988C62E"?>
   <?define Manufacturer="The Simply Sound Co."?>
-  
-	<Product Id="*" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
-		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+  <Product Id="*" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <MediaTemplate EmbedCab="yes" />
 
-		<Feature Id="ProductFeature" Title="var.AMPClient.TargetName" Level="1">      
+    <Feature Id="ProductFeature" Title="var.AMPClient.TargetName" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="ApplicationShortcut" />
       <ComponentGroupRef Id="DesktopShortcut" />
       <ComponentGroupRef Id="SetPermission" />
-		</Feature>
-    
+    </Feature>
+
     <ComponentGroup Id="SetPermission" Directory="INSTALLFOLDER">
       <Component Id="tmpFolder" Guid="881F1B96-AF0E-419D-AFC1-86E659A153D6">
         <CreateFolder>
@@ -26,8 +26,18 @@
         </CreateFolder>
       </Component>
     </ComponentGroup>
-	
-  </Product>
+
+    <CustomAction Id="ServiceBackup" Directory="INSTALLFOLDER" Return="asyncWait" ExeCommand="[SystemFolder]cmd.exe /C start AMPBackup.exe -b" />
+    <InstallExecuteSequence>
+      <Custom Action="ServiceBackup" After="InstallFinalize">NOT Installed</Custom>
+    </InstallExecuteSequence>
+    
+    <CustomAction Id="ServiceRestore" Directory="INSTALLFOLDER" Return="check" ExeCommand="[SystemFolder]cmd.exe /C start AMPBackup.exe -r" />
+    <InstallExecuteSequence>
+      <Custom Action="ServiceRestore" Before="RemoveFiles">Installed AND NOT REINSTALL</Custom>
+    </InstallExecuteSequence>
+    
+    </Product>
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
@@ -50,11 +60,13 @@
         <RemoveFolder Id='ProgramMenuFolder' Directory='INSTALLFOLDER' On='uninstall' />
         <File Id="FILEE6A5FD63C9F3407FADDEADD1DC2811F8" Source="$(var.AMPClient.TargetPath)"></File>        
         <File Id="FILEBE8A4E7404184FF4B8DE18A897281CF6" Source="$(var.AMPClasses.TargetPath)"></File>
+        <File Id="FILED51442FA8A224B47B5AA380D8ABAF4CF" Source="$(var.AMPBackup.TargetPath)"></File>
         <File Id="FILEEC297B17616E4169AD7AFFD98B38F20B" Source="$(var.SolutionDir)\Files\WIN7.profile"></File>
         <File Id="FILE776F634553694331B769B620FC057233" Source="$(var.SolutionDir)\Files\WIN10.profile"></File>
         <RemoveFile Id="DATFiles" Name="*.config" On="uninstall"/>
         <RemoveFile Id="LOGFiles" Name="*.log" On="uninstall"/>
         <RemoveFile Id="CSVFiles" Name="*.csv" On="uninstall"/>
+        <RemoveFile Id="BAKFiles" Name="*.backup" On="uninstall"/>
       </Component>
     </ComponentGroup>
   </Fragment>
@@ -91,5 +103,4 @@
       </Component>
     </ComponentGroup>
   </Fragment>
-  
 </Wix>

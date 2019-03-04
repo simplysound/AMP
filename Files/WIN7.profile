@@ -83,7 +83,6 @@ ProfSvc	User Profile Service	0
 vds	Virtual Disk	0
 VSS	Volume Shadow Copy	0
 WarpJITSvc	WarpJITSvc	0
-AudioSrv	Windows Audio	0
 AudioEndpointBuilder	Windows Audio Endpoint Builder	0
 SDRSVC	Windows Backup	0
 WEPHOSTSVC	Windows Encryption Provider Host Service	0

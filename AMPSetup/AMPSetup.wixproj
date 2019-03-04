@@ -25,6 +25,14 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AMPBackup\AMPBackup.csproj">
+      <Name>AMPBackup</Name>
+      <Project>{e5e1cf23-e48e-4262-a0a4-212107894edc}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\AMPClasses\AMPClasses.csproj">
       <Name>AMPClasses</Name>
       <Project>{8da55ce4-988a-4b1d-86d8-308b19797fac}</Project>
