@@ -148,6 +148,7 @@ namespace AMPClient
                     break;
             }
             InitializeGUI_ON_OFF();
+            AudioSrvPatch();
         }
 
         private void FormMain_Shown(object sender, EventArgs e)
@@ -426,6 +427,7 @@ namespace AMPClient
             STARTServicePatch();
             LocalNetworkConnectionONOFF(true);
             WirelessConnectionONOFF(true);
+            AudioSrvPatch();
             AlwaysStartedServicesPatch();
         }
 
@@ -460,6 +462,7 @@ namespace AMPClient
             LocalNetworkConnectionONOFF(false);
             WirelessConnectionONOFF(false);
             STOPServicePatch();
+            AudioSrvPatch();
             AlwaysStartedServicesPatch();
         }
 
@@ -486,6 +489,25 @@ namespace AMPClient
                     continue;
                 }
             }
+        }
+
+        private void AudioSrvPatch()
+        {
+            string serviceName = "AudioSrv";
+            ServiceController sc = new ServiceController(serviceName);
+            if (sc.Status.Equals(ServiceControllerStatus.Running) == false)
+            {
+                try
+                {
+                    sc.Start();
+                    sc.WaitForStatus(ServiceControllerStatus.Running);
+                }
+                catch (Exception E)
+                {
+                    if ((sc != null) && (sc.Status.Equals(ServiceControllerStatus.Running) == false))
+                        MessageBox.Show("AudioSrv not started!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            } 
         }
 
         private void STARTServicePatch()
